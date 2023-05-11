@@ -17,7 +17,7 @@ lazy_static! {
 
 pub fn defang(input: &str) -> String {
     if IPV4_REGEX.is_match(input) {
-        return defang_ipv4(input);
+        defang_ipv4(input)
     } else if IPV6_REGEX.is_match(input) {
         return defang_ipv6(input);
     } else if EMAIL_REGEX.is_match(input) {
@@ -34,7 +34,7 @@ pub fn defang_url(input: &str) -> String {
     result = HTTP_REGEX.replace_all(&result, "hxxp").to_string();
     // result = SLASHES_REGEX.replace_all(&result, "[://]").to_string();
 
-    return result;
+    result
 }
 
 pub fn defang_ipv4(input: &str) -> String {
@@ -51,5 +51,5 @@ pub fn defang_email(input: &str) -> String {
     result = DOTS_REGEX.replace_all(&result, "[.]").to_string();
     result = AT_REGEX.replace_all(&result, "[@]").to_string();
 
-    return result;
+    result
 }
