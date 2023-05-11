@@ -1,0 +1,16 @@
+[package]
+name = "sambot-parser"
+version = "0.1.0"
+edition = "2021"
+type = "lib"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.71"
+clap = { version = "4.2.7", features = ["derive"] }
+ioc_extract = "0.4.3"
+lazy_static = "1.4.0"
+regex = "1.8.1"
+serde = "1.0.163"
+serde_json = "1.0.96"
