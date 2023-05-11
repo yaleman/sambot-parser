@@ -21,7 +21,7 @@ pub fn defang(input: &str) -> String {
     } else if IPV6_REGEX.is_match(input) {
         return defang_ipv6(input);
     } else if EMAIL_REGEX.is_match(input) {
-        return defang_email(input)
+        return defang_email(input);
     } else {
         return defang_url(input);
     }

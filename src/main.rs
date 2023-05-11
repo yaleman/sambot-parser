@@ -7,7 +7,7 @@ use std::io::Read;
 #[command(author, version, about, long_about = None)]
 struct Cli {
     tlp: Option<String>,
-    #[clap(long="type", short='t')]
+    #[clap(long = "type", short = 't')]
     report_type: Option<String>,
 }
 
