@@ -4,10 +4,11 @@ use sambot_parser::process_str;
 use std::io::Read;
 
 #[derive(Parser)]
-#[command(author, version, about, long_about = None)]
+#[command(author, version, about, long_about = "Pipe some text through this and it'll output fields like it should for sambot")]
 struct Cli {
+    #[clap(long="tlp",short='t')]
     tlp: Option<String>,
-    #[clap(long = "type", short = 't')]
+    #[clap(long = "report", short = 'r')]
     report_type: Option<String>,
 }
 
