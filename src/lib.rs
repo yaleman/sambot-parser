@@ -17,6 +17,9 @@ lazy_static! {
     static ref REGEX_MD5: Regex = Regex::new(r#"([a-fA-F0-9]{32})"#).unwrap();
     static ref REGEX_SHA256: Regex = Regex::new(r#"([a-fA-F0-9]{64})"#).unwrap();
     static ref REGEX_SHA512: Regex = Regex::new(r#"([a-fA-F0-9]{128})"#).unwrap();
+    // thanks to https://nbviewer.org/github/rasbt/python_reference/blob/master/tutorials/useful_regex.ipynb#Checking-for-IP-addresses
+    static ref REGEX_IPV6: Regex = Regex::new(r#"((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$'
+    "#).unwrap();
 }
 
 /// Use the regexes to find hashes in the source strings.
@@ -61,6 +64,11 @@ pub fn process_str(data: &str, tlp: &str, report_type: &str) {
             .into_iter()
             .for_each(|ip_address| println!("ip-dst: {}", defang(&ip_address)));
     }
+
+    // use REGEX_IPV6 to match IP Addresses
+    REGEX_IPV6.captures_iter(&data).for_each(|x| {
+        println!("ip-dst: {}", defang(&x[1].to_string()));
+    });
 
     if let Some(crypto_vec) = result.crypto {
         crypto_vec
