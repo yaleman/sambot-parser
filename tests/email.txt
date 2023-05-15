@@ -1,0 +1,247 @@
+Return-Path: <example595@hotmail.com>
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	 by sloti42n02 (Cyrus 3.9.0-alpha0) with LMTPA;
+	 Sun, 14 May 2023 16:21:15 -0400
+X-Cyrus-Session-Id: sloti42n02-1684095675-1400207-5-3477191453338806222
+X-Sieve: CMU Sieve 3.0
+X-Spam-known-sender: no
+X-Spam-sender-reputation: 500 (none)
+X-Spam-score: 4.1
+X-Spam-hits: BAYES_00 -1.9, FORGED_HOTMAIL_RCVD2 0.874, FREEMAIL_ENVFROM_END_DIGIT 0.25,
+  FREEMAIL_FROM 0.001, HTML_MESSAGE 0.001, HTML_MIME_NO_HTML_TAG 0.377,
+  ME_HAS_VSSU 0.001, ME_SC_NH -0.001, ME_SENDERREP_NEUTRAL 0.001,
+  ME_VADESPAM_MED 2.5, MIME_HTML_ONLY 0.1, MIME_HTML_ONLY_MULTI 0.001,
+  MISSING_HEADERS 1.021, MPART_ALT_DIFF 0.79, RCVD_IN_DNSWL_NONE -0.0001,
+  RCVD_IN_MSPIKE_H2 -0.001, SPF_HELO_PASS -0.001, SPF_PASS -0.001,
+  T_SCC_BODY_TEXT_LINE -0.01, URI_HEX 0.1, LANGUAGES en, BAYES_USED user,
+  SA_VERSION 3.4.6
+X-Spam-source: IP='40.92.73.101',
+  Host='mail-he1eur04olkn2101.outbound.protection.outlook.com',
+  Country='FI', FromHeader='com', MailFrom='com'
+X-Spam-charsets: html='us-ascii'
+X-Resolved-to: bob@example.com
+X-Delivered-to: bob@example.com.au
+X-Mail-from: example595@hotmail.com
+Received: from mx1 ([10.202.2.200])
+  by compute2.internal (LMTPProxy); Sun, 14 May 2023 16:21:15 -0400
+Received: from mx1.messagingengine.com (localhost [127.0.0.1])
+	by mailmx.nyi.internal (Postfix) with ESMTP id 78ACF23C00AF
+	for <bob@example.com.au>; Sun, 14 May 2023 16:21:15 -0400 (EDT)
+Received: from mx1.messagingengine.com (localhost [127.0.0.1])
+    by mx1.messagingengine.com (Authentication Milter) with ESMTP
+    id 8525F006BB6;
+    Sun, 14 May 2023 16:21:15 -0400
+ARC-Seal: i=2; a=rsa-sha256; cv=pass; d=messagingengine.com; s=fm1; t=
+    1684095675; b=bY9MweyZchjxo9fGhPa8fxKM5nqykKLbhpm1Mw0VenpptkieB8
+    96Dg/t00yHIJ6MyTXuZLUh1M5nWk49vE0+YB9FHrBbLYK3dUTBKSN/z9Toq79IYD
+    mOpq1gvrsZ7JTEtM5HMYssYIaiY0QPspXdVFoK+l9igX6vWRfFnpLTLjKwyfH5Qj
+    V7y0ZPB3bdlz4amCEExUQaTdbrAhhGD2tm6fPOiRQa8p6TPD54hlfYcW8vqu693c
+    NvpNGULSXaZOuxy5xpiuKCXiDuIe894RMY1W3MbPFGbd1i+Iu+Ei9KUrSasobNR9
+    9eSYAbDkmOGlAab6l3Nyrk+WxI+6Qtk670JA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=
+    messagingengine.com; h=content-type:subject:from:cc:date
+    :message-id:mime-version; s=fm1; t=1684095675; bh=GJjVczagdr6DWF
+    TEF4PJssAfzC5nvk6pu7kpUn6QT5s=; b=oXx6R9GBTayPcMl30p6dvP+tgd2ROm
+    FJwjJNB3w+4MeTis+q8aQsHSbku4v5L/QT1NNyTCJYBP9ULRhefBfYISqjLdZ+qa
+    ayVkg3L9hNI3iycmUzsYRpkvTgQd8OEX5hlOUKBKD/DTBgP+1/Ow5GEWdUo+4VAU
+    cA0wLmtafjXqjpEqVoC8CYOM3W+UNCoYUHW7nosERQVFMH3dEd+/DPSrbCamFla8
+    jRq+WD+5osj9XbvisB9SSGxLRkwWwU87qpYtNJ2imoO9m0PRDXBFjLxZjipc4Tgk
+    944mlaMVANvVhHeDbK0F4TpIJMXfJSdmGtqMSvVTl4SwzoSGz5MElIbw==
+ARC-Authentication-Results: i=2; mx1.messagingengine.com;
+    x-csa=none;
+    x-me-sender=none;
+    x-ptr=fail smtp.helo=EUR04-HE1-obe.outbound.protection.outlook.com
+    policy.ptr=mail-he1eur04olkn2101.outbound.protection.outlook.com;
+    bimi=skipped (DMARC Policy is not at enforcement);
+    arc=pass (as.1.microsoft.com=pass, ams.1.microsoft.com=pass)
+    smtp.remote-ip=40.92.73.101;
+    dkim=pass (2048-bit rsa key sha256) header.d=hotmail.com
+    header.i=@hotmail.com header.b=kQAbo4Jg header.a=rsa-sha256
+    header.s=selector1 x-bits=2048;
+    dmarc=pass policy.published-domain-policy=none
+    policy.applied-disposition=none policy.evaluated-disposition=none
+    (p=none,d=none,d.eval=none) policy.policy-from=p
+    header.from=hotmail.com;
+    iprev=pass smtp.remote-ip=40.92.73.101
+    (mail-he1eur04olkn2101.outbound.protection.outlook.com);
+    spf=pass smtp.mailfrom=example595@hotmail.com
+    smtp.helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-ME-Authentication-Results: mx1.messagingengine.com;
+    x-aligned-from=pass (Address match);
+    x-return-mx=pass header.domain=hotmail.com policy.is_org=yes
+      (MX Records found: hotmail-com.olc.protection.outlook.com);
+    x-return-mx=pass smtp.domain=hotmail.com policy.is_org=yes
+      (MX Records found: hotmail-com.olc.protection.outlook.com);
+    x-tls=pass smtp.version=TLSv1.2 smtp.cipher=ECDHE-RSA-AES256-GCM-SHA384
+      smtp.bits=256/256;
+    x-vs=spam:medium score=445 state=1
+Authentication-Results: mx1.messagingengine.com;
+    x-csa=none;
+    x-me-sender=none;
+    x-ptr=fail smtp.helo=EUR04-HE1-obe.outbound.protection.outlook.com
+      policy.ptr=mail-he1eur04olkn2101.outbound.protection.outlook.com
+Authentication-Results: mx1.messagingengine.com;
+    bimi=skipped (DMARC Policy is not at enforcement)
+Authentication-Results: mx1.messagingengine.com;
+    arc=pass (as.1.microsoft.com=pass, ams.1.microsoft.com=pass)
+      smtp.remote-ip=40.92.73.101
+Authentication-Results: mx1.messagingengine.com;
+    dkim=pass (2048-bit rsa key sha256) header.d=hotmail.com
+      header.i=@hotmail.com header.b=kQAbo4Jg header.a=rsa-sha256
+      header.s=selector1 x-bits=2048;
+    dmarc=pass policy.published-domain-policy=none
+      policy.applied-disposition=none policy.evaluated-disposition=none
+      (p=none,d=none,d.eval=none) policy.policy-from=p
+      header.from=hotmail.com;
+    iprev=pass smtp.remote-ip=40.92.73.101
+      (mail-he1eur04olkn2101.outbound.protection.outlook.com);
+    spf=pass smtp.mailfrom=example595@hotmail.com
+      smtp.helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-ME-VSSU: VW5zdWI9aHR0cHM6Ly9jbGV2ZXItd2lzcC00MjEyOTAubmV0bGlmeS5hcHAv
+X-ME-VSCause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehhedgudeglecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecuogfuuhhsphgvtghtff
+    homhgrihhnucdlgeelmdenmhhishhsihhnghcuvffquchfihgvlhguucdlfedtmdenqfhn
+    lhihuchonhgvuchprghrthculdehuddmnegoteeftdduqddtudculdduhedmnednffgrth
+    hinhhgqdhnlhdqvghnucdlfedttddmnecujfgurheptgfuhfevfffkggesrgdttdertddt
+    vdenucfhrhhomhepoeguohhnnhgrhhgrnhhkihhnshehleehsehhohhtmhgrihhlrdgtoh
+    hmqeenucggtffrrghtthgvrhhnpeelkeeghfdtgfelfeehfeeijeelgfelfeeffefhtddv
+    udfgtddtvedtgefhkeeihfenucffohhmrghinhepnhgvthhlihhfhidrrghpphenucfkph
+    epgedtrdelvddrjeefrddutddupddviedtfeemuddtrgeimeektddtmedusgdumeemudef
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepgedtrdelvddrje
+    efrddutddupdhhvghlohepgfgftfdtgedqjffguddqohgsvgdrohhuthgsohhunhgurdhp
+    rhhothgvtghtihhonhdrohhuthhlohhokhdrtghomhdpmhgrihhlfhhrohhmpeeoughonh
+    hnrghhrghnkhhinhhsheelheeshhhothhmrghilhdrtghomheq
+X-ME-VSScore: 445
+X-ME-VSCategory: spam:medium
+X-ME-CSA: none
+Received-SPF: pass
+    (hotmail.com: Sender is authorized to use 'example595@hotmail.com' in 'mfrom' identity (mechanism 'include:spf.protection.outlook.com' matched))
+    receiver=mx1.messagingengine.com;
+    identity=mailfrom;
+    envelope-from="example595@hotmail.com";
+    helo=EUR04-HE1-obe.outbound.protection.outlook.com;
+    client-ip=40.92.73.101
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04olkn2101.outbound.protection.outlook.com [40.92.73.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.messagingengine.com (Postfix) with ESMTPS
+	for <bob@example.com.au>; Sun, 14 May 2023 16:21:15 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=brSbFD5ZlCbIfYBKUaEZiTgrmtKthrZ5vjWAqEpE1Rknhl6gWpFwhs4uuZlpxmeGEVMefbNnQ/aqDTXf56jhS0B++j8ZTYtEAnfOopD0nEMQzHA3fO32szFkItTgwudXFadAxps5S3+22n7hYmvz7N/pfEsT4Hf7Mdj1DCshB3bvzbxI4837agSALyoMtGKUkUn8FmCaungUkLAo4ET6P635Sam2fP2rYJvjfGdf0nPwP6oDzpD3EFK6T/4lwwXHGWRrND1uMleZcICJdwwPdBwldXKuKx1zSWOhvB7HdEOBz8jBpdCDeT0VLAvGFFA0mhHdtz4cuTTafZ+khVKIDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GJjVczagdr6DWFTEF4PJssAfzC5nvk6pu7kpUn6QT5s=;
+ b=fq3kcE4sagW6wo8eg8WOPMUe82jcKNgK1Tgf/2tullEH0GDLrs8UpCfZQNdiDc4jE7gYBy/DFEp1Lgwg7Pb7O4w0AiJm6N5cdlb3fdR0/DL1OHvvwVB2zDMYUsFhmLWZ7DpA/NebTpRzzkCarVZEM0lCM430GoofKHa0v49GuUhD7YCp+90IEtzuZpeg2jOp9jCj6VLWrNaCez4GW0hREkUfdbkZg6dY28TRyTL7flA+CvAl1nmWwyVaVoxOKAqGr77pqh1t40RerMeTjCAUimRPqvrJHwy+xJq8TFtRX1pRmXHnayGhhTy8nLevgmA3UqFvEhjQKOPkRftLipLtEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GJjVczagdr6DWFTEF4PJssAfzC5nvk6pu7kpUn6QT5s=;
+ b=kQAbo4JgDNw65lxWwBgNoAak9nwvi2TjhGy7nTTcfRDOeQROFacWF9HmLZDyqZ3YfirkLlBbV+ug30pmdxBRQ+G+eALRee2xw2osUZgfrxubnS+pQ9Yfzx3vnEcuZDsNeInaoIFiPfJNzhN1bS4vFetUtlHyw4+1XUqwBjOaVFsa+xPfgRS7EKBxEC2IHLf1XQb3pJXeyfAHFLqMPPF9IhVQ5SXcmERwmwVOJm3ADZUUIKPlSOC/w83pj8Ha21Ko8mO7S0USMrhceRuhRu3tYLOjAyazyPBA44U3Nh3rtUQitB1nDP14MroQh9oUHFup+kWJOYvt5AuA5OQ6Dq6wxw==
+Received: from VE1P190MB0927.EURP190.PROD.OUTLOOK.COM (2603:10a6:800:1b1::13)
+ by GVXP190MB1848.EURP190.PROD.OUTLOOK.COM (2603:10a6:150:6e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.29; Sun, 14 May
+ 2023 20:21:02 +0000
+Received: from VE1P190MB0927.EURP190.PROD.OUTLOOK.COM
+ ([fe80::bc7b:14d5:e6f3:b623]) by VE1P190MB0927.EURP190.PROD.OUTLOOK.COM
+ ([fe80::bc7b:14d5:e6f3:b623%3]) with mapi id 15.20.6387.030; Sun, 14 May 2023
+ 20:21:02 +0000
+Content-Type: multipart/alternative; boundary="===============2152978045189987951=="
+Subject: Find Your Perfect Match in Ukraine: Start Dating Today!
+From: <example595@hotmail.com>
+CC: <example595@hotmail.com>
+Date: Sun, 14 May 2023 20:20:49 +0000
+X-TMN: [vTKTy+KF9z/5rUyD5/dWDJlKIdX3+v6W]
+X-ClientProxiedBy: VI1PR0701CA0026.eurprd07.prod.outlook.com
+ (2603:10a6:800:90::12) To VE1P190MB0927.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:800:1b1::13)
+Message-ID:
+ <VE1P190MB0927B47361A525CCC6FCF12BE47B9@VE1P190MB0927.EURP190.PROD.OUTLOOK.COM>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1P190MB0927:EE_|GVXP190MB1848:EE_
+X-MS-Office365-Filtering-Correlation-Id: c9f3bdc6-a230-42f7-6b5b-08db54b8bc44
+X-MS-Exchange-SLBlob-MailProps:
+	mKbnLS08NtvbETNsQOxSFgqRBqtCGiJU5Ikko5k9pDLLW7E8TExkCSw1plydvmem4v5X3fPuGK32LKnN7A7o9mr5GRtV4zePV5klXN0T3tYmdKJFhQcSZYpMldM83y+iP75JaVHFnr0Aqwn0PIYivYCPVA6LjLf81Dv8dBueUjM9d0wGgAZIaKWgeUWhZ7A7G0HIbOPGUZicHU3MjdGQHIbx/Sz6H2L9OdvmWSPjzVJ7idCzDoMvsJqf1FIW8lH7Fyy1mO3WpLKfM9BdcqMSFphT9co0VSQ3tzpgPrJu93HqRZXP9plN/xKwnlj1eZiazumxZnZpm/Vmld0vCB9TVJzx3Gr1a9LgYl7zpWNf0PT/mkgHANKhx/iAgIvQEv2jFghpx9I0Nfo8T4kRB8V82oapcSEAgfQ7wpVCyfS1XjLobVg/amL/fjjTUUWHTtAfJTlWSY401fQ1QL+zV2xFR9mKHWsq/L9qYt24Ce8T2Mbhs7qkCff/X6bIwprRM87O6/uBvqzWLSb/zMRIFpYlaGJSqZqd4hzhpSs8JlXBHKAEsDgqU6FMjCutwQqbOI65toEhjqaYwpdvJYhi4I7JAhHFzsDUNOciVTYXWyu3Zl1joGLSbHTEJLOW+2aFsG70aexNB3lnr0nFZChGNLp+Re4RJfEjnDQiZJ9J8MMGi8G0/0Q1kf0ymGtFANqc9jyMKq06+BHB3qWCw+F8+p/1klFiCB4n5+Z51Rr2/f/gTqwxliRLlTAGOgYTTpSlSGTo7Z2tW7QfvluYbpieGIJmf0m+YIhcRlzR79pOmftMQZ2lPOpECB7KM/VRGiDIQJulGurWsOB39UHJq9CWkLnAcUXvQp0kE8db
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	lUFs7t4ihTC+cfLcxz50N3tVLlTVq9NNynMIDBVV3IlW3p+Jz+Amhdt72ZPB6109g/rHoE+sCH0B2nbQfmW4FDTno5vaFaWowpm6Ac+4OJGKCwW2dHGe6mKPwTRtdQotc/l7R991V0mOupnn0btuSHL2LnOw7YvsHly/sgQftCvZ/hn+5tJ/IKlVxgDo7cFDUkfstcEc18WpQPpwNXTKBpimsRk1+4mgPCVi1ksMJnTKcQXwbDxv78qgXcQalC0348NlzFb+dyWvAFofIPmJKJX4RiuQ0w2ERqGP33mRzyeROvxUWsERl1waKqt5TXl5Qb5gcc0OCD3Gl9Hi4WALjNvC7gxHDJs0pNCWhKsdDUntN58HxlNk3MAnGKurJiXLszDtr6Lt1/VI1yJl46L50vCyjJy35JD3hiBcL92jxz/vnFt+/Cfc6ZmRbHvLzN3nmL3rjuAnBfH/q1OgtSi3WOZ+RKCoZXAPgDopWy0n3TC2nbuujQpnlTR/AihulvHvRkRpxtW9uyYsktAoID+P6/rIMu61KqKxolijxhaQq0lsILo0ArXF8C3m6wAijynOzTRF/WI74hOGG2dtWf0s+qYnjqgfljR8lkr2d1ebL+rix0Qa6mdjDNzbzVmdBnx1nQHLvEwnjR+R3lT/jrKWQ9ivQ/T+IBb24JotpA3cmOUFMMLQCj4TRIq9e+acbmJK
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4MAaLr+q0JdTXHKqJGSWJLxfblMB++IIdzhQmhIvkLQ7+YgIiMWFggLvlmDw?=
+ =?us-ascii?Q?9FZL/wx1ONCSDwWQhKIa57pclpCReVjWVzzJ8XmsZBGMcCYkW350rf1adMBa?=
+ =?us-ascii?Q?HiLdeeqOUPfQQhwvmGJH/HEnErMQFQfxCXJ2pH9Yx+J1KpSMGJuZpMwLuuU4?=
+ =?us-ascii?Q?T6mWixDOUv2D8S1K2HR6xUONUhKVT4HFqbGwphXOup4T5GkxYjmmxGyvoKpZ?=
+ =?us-ascii?Q?DkQJ37HcB5tnpfkVpwDyk7s1pvAFLSrIgzqMTUwqHOG0ZeBQTh9SbCnRW1W0?=
+ =?us-ascii?Q?F+G16yetjjkhy+3rAShs+g68v8g+DTtp4FhqNrpj36BTMGJQdKP64SpmVu9g?=
+ =?us-ascii?Q?lrnnhPKxsMlK3m4TWtwHh3INmf5NlEsXk0FuhU6yw2Njj1tVrBkSE0L5tF8P?=
+ =?us-ascii?Q?0SDq380UWGgMsL/MvZwV6zWarKgel9CKuyWaflRnMnC7rGuTSXNI2YmZgQlC?=
+ =?us-ascii?Q?rx3aKf+nYDED1IrWzsQsjUA0jerZYITDy1bxRd0/sOhXeP4lGTK8Lxc4MzZD?=
+ =?us-ascii?Q?BYknOFdld0u29pxl+dkN5jheU7NeB3XAzTwoDhAQCfsxTbmWGTzB2DesFyTm?=
+ =?us-ascii?Q?pY0yykn/gck8h0N0/zeGCw8NxIe+26QT767B3BLIhjKGL3lGUDMx38dcuBcd?=
+ =?us-ascii?Q?In7iIV5C6N2Vgzqqa4r7cvuyUnDLbYi89fiM3LG49YbMwlWzM6sSDlofVnDl?=
+ =?us-ascii?Q?zQn5aJ4ZMXNKMSgtaUk3STefQJUmSofw4/0yTNkLdB8wvT8XERKlQ4Hx0a43?=
+ =?us-ascii?Q?Qd3ER0skDfx8o8u6zHTxqUxaa9/+daYBjo1z5I7ci02TEYASn300kRcsqxMB?=
+ =?us-ascii?Q?91h8qLcdQ72G9zc5T5n959Nbt+F4XhUCvtR/x4j804tMgOVF9JutTW141uzh?=
+ =?us-ascii?Q?e93xTca4rU5smoP7DKREOZQSioOBEPaavkU4GvpRzBBi/dpSZGjywbVSPzH3?=
+ =?us-ascii?Q?RFJ7flPhx4udn2AUaVp+SafdsB3K1CgGWQsWeja7keXt6DvXvJAYzke4EH9A?=
+ =?us-ascii?Q?D2rviDdQtHLmhIjlG7D0e2y5wnbI7GQZzt8naSx50lHiHelcdU3N8N6BCOBS?=
+ =?us-ascii?Q?0JF7Ys+lCpQQyHFKsrF5bXj3FZcJVf0icL+J5W6o/C08uM64Kn5zYetOdXzP?=
+ =?us-ascii?Q?Fg8ttt1ZHPfvWZCwHrMIvl8+ow76yG+0tKLhGQtzRPzqtpgD1BbI5jwlSgHc?=
+ =?us-ascii?Q?9vRwLhq0U4aP2a9Qn7maPwWKUUdfqNSY60FDRLAuk2Bp+q6MQYX5hynLDuk?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-91991.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9f3bdc6-a230-42f7-6b5b-08db54b8bc44
+X-MS-Exchange-CrossTenant-AuthSource: VE1P190MB0927.EURP190.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2023 20:21:02.3650
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP190MB1848
+
+--===============2152978045189987951==
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii"><p style="text-align:center">&nbsp;</p>
+
+<p style="text-align:center"><span style="font-size:12pt"><span style="font-family:'Playfair Display',serif"><span style="color:#000000">Welcome to our dating platform, where your journey to finding love with Ukrainian women begins! Our site is dedicated to connecting you with charming, intelligent, and genuine Ukrainian singles who are seeking meaningful relationships.</span></span></span></p>
+
+<p style="text-align:center"><span style="font-size:13.999999999999998pt"><span style="font-family:'Playfair Display',serif"><span style="color:#000000"><strong>Join our community today</strong></span></span></span><span style="font-size:12pt"><span style="font-family:'Playfair Display',serif"><span style="color:#000000"> and unlock a world of possibilities. Browse through profiles, exchange messages, and get to know fascinating Ukrainian women who are looking for someone like you. Our advanced search features make it easy to find someone who matches your preferences, whether it's their appearance, interests, or values.</span></span></span></p>
+
+<p style="text-align:center"><span style="font-size:12pt"><span style="font-family:'Playfair Display',serif"><span style="color:#000000">Don't miss out on the opportunity to discover true romance with Ukrainian girls.</span></span></span><span style="font-size:13.999999999999998pt"><span style="font-family:'Playfair Display',serif"><span style="color:#000000"><strong>&nbsp;</strong></span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align:center"><span style="font-size:13.999999999999998pt"><span style="font-family:'Playfair Display',serif"><span style="color:#000000"><strong>Sign up now</strong></span></span></span><span style="font-size:12pt"><span style="font-family:'Playfair Display',serif"><span style="color:#000000"><strong> </strong></span></span></span><span style="font-size:12pt"><span style="font-family:'Playfair Display',serif"><span style="color:#000000">and start your exciting journey to finding your perfect match.&nbsp;</span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align:center"><a href="https://neon-dragon-c883cb.netlify.app/" style="text-decoration:none"><span style="font-size:24.999999999999996pt"><span style="font-family:Georgia"><span style="color:#ff00ff"><strong><u>FindUkrainianGirl</u></strong></span></span></span></a></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align:center"><img src="https://ckeditor.com/apps/ckfinder/userfiles/files/image-20230514220423-1.png" style="height:422px; width:332px"></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align:center"><span style="font-size:22pt"><span style="font-family:Georgia"><span style="color:#000000"><strong>&lt;&lt;&lt;Registration is free&gt;&gt;&gt;</strong></span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align:center"><span style="font-size:10pt"><span style="font-family:Georgia"><span style="color:#111111"><span style="background-color:#ffffff">If you do not wish to receive further communications like this, please click here to </span></span></span></span><a href="https://clever-wisp-421290.netlify.app/" style="text-decoration:none"><span style="font-size:10pt"><span style="font-family:Georgia"><span style="color:#1155cc"><span style="background-color:#ffffff"><u>unsubscribe.</u></span></span></span></span></a><span style="font-size:10pt"><span style="font-family:Georgia"><span style="color:#111111"><span style="background-color:#ffffff">&nbsp;</span></span></span></span></p>
+
+<p style="text-align:center"><span style="font-size:10pt"><span style="font-family:Georgia"><span style="color:#111111"><span style="background-color:#ffffff">Please note that it may take up to 10 days to process your request.</span></span></span></span></p>
+
+<p><br>
+&nbsp;</p>
+
+--===============2152978045189987951==--

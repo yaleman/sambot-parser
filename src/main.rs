@@ -3,6 +3,7 @@ use clap::Parser;
 use lazy_static::lazy_static;
 use sambot_parser::process_str;
 use std::io::Read;
+use std::path::PathBuf;
 
 #[derive(Parser)]
 #[command(
@@ -16,6 +17,8 @@ struct Cli {
     tlp: Option<String>,
     #[clap(long = "report", short = 'r')]
     report_type: Option<String>,
+    #[clap(long = "file", short = 'f')]
+    filename: Option<PathBuf>,
 }
 
 lazy_static! {
@@ -51,12 +54,26 @@ fn main() {
         std::process::exit(1);
     }
 
-    let mut data = String::new();
-
-    std::io::stdin()
-        .read_to_string(&mut data)
-        .with_context(|| "Failed to read from stdin")
-        .unwrap();
+    let data = match cli.filename {
+        Some(val) => {
+            let mut tmp = String::new();
+            std::fs::File::open(val.clone())
+                .with_context(|| format!("Failed to open file: {}", val.display()))
+                .unwrap()
+                .read_to_string(&mut tmp)
+                .with_context(|| format!("Failed to read from file: {}", val.display()))
+                .unwrap();
+            tmp
+        }
+        None => {
+            let mut tmp = String::new();
+            std::io::stdin()
+                .read_to_string(&mut tmp)
+                .with_context(|| "Failed to read from stdin")
+                .unwrap();
+            tmp
+        }
+    };
 
     process_str(&data, &tlp, &report_type);
 }
