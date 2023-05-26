@@ -11,6 +11,6 @@ anyhow = "1.0.71"
 clap = { version = "4.3.0", features = ["derive"] }
 ioc_extract = "0.4.3"
 lazy_static = "1.4.0"
-regex = "1.8.1"
+regex = "1.8.3"
 serde = "1.0.163"
 serde_json = "1.0.96"
