@@ -31,10 +31,24 @@ macro_rules! find_hash {
     };
 }
 
+/// strip ansi escape codes on the input
+fn strip_to_string(data: &str) -> String {
+    let ansi_stripped = strip_ansi_escapes::strip(data).unwrap();
+    std::str::from_utf8(&ansi_stripped).unwrap().to_string()
+}
+
 pub fn process_str(data: &str, tlp: &str, report_type: &str) {
-    let result = Artifacts::from_str(data)
-        .with_context(|| "Failed to find any artifacts")
-        .unwrap();
+    // TODO: make this a test
+    // echo -e "https://\033[31;1;4mgoogle.com Hello\033[0m https://example.com" | cargo run --
+    let data = strip_to_string(data);
+
+    let result = match Artifacts::from_str(&data).with_context(|| "Failed to find any artifacts") {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("Error: {:?}", err);
+            return;
+        }
+    };
 
     println!("tag: TLP:{}", tlp);
     println!("type: {}", report_type);
@@ -66,7 +80,7 @@ pub fn process_str(data: &str, tlp: &str, report_type: &str) {
     }
 
     // use REGEX_IPV6 to match IP Addresses
-    REGEX_IPV6.captures_iter(data).for_each(|x| {
+    REGEX_IPV6.captures_iter(&data).for_each(|x| {
         println!("ip-dst: {}", defang(&x[1]));
     });
 
@@ -75,13 +89,13 @@ pub fn process_str(data: &str, tlp: &str, report_type: &str) {
             .into_iter()
             .for_each(|crypto| println!("crypto: {}", defang(&crypto)));
     }
-    REGEX_SUBJECT.captures_iter(data).for_each(|x| {
+    REGEX_SUBJECT.captures_iter(&data).for_each(|x| {
         println!("subject: {}", defang(&x[0]));
     });
 
-    let md5s: Vec<String> = find_hash!(REGEX_MD5, data);
-    let sha256s: Vec<String> = find_hash!(REGEX_SHA256, data);
-    let sha512s: Vec<String> = find_hash!(REGEX_SHA512, data);
+    let md5s: Vec<String> = find_hash!(REGEX_MD5, &data);
+    let sha256s: Vec<String> = find_hash!(REGEX_SHA256, &data);
+    let sha512s: Vec<String> = find_hash!(REGEX_SHA512, &data);
 
     md5s.into_iter().for_each(|md5| println!("md5: {}", md5));
     sha256s
@@ -90,4 +104,7 @@ pub fn process_str(data: &str, tlp: &str, report_type: &str) {
     sha512s
         .into_iter()
         .for_each(|sha512| println!("sha512: {}", sha512));
+
+    println!("-------------------------");
+    println!("{}", data);
 }
