@@ -7,7 +7,7 @@ authors = ["James Hodgkinson <james@terminaloutcomes.com>"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0.72"
+anyhow = "1.0.75"
 clap = { version = "4.3.22", features = ["derive"] }
 ioc_extract = "0.4.3"
 lazy_static = "1.4.0"
