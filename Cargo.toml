@@ -12,6 +12,6 @@ clap = { version = "4.4.0", features = ["derive"] }
 ioc_extract = "0.4.3"
 lazy_static = "1.4.0"
 regex = "1.9.3"
-serde = "1.0.186"
+serde = "1.0.188"
 serde_json = "1.0.105"
 strip-ansi-escapes = "0.2.0"
