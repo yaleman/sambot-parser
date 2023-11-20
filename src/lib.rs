@@ -33,8 +33,10 @@ macro_rules! find_hash {
 
 /// strip ansi escape codes on the input
 fn strip_to_string(data: &str) -> String {
-    let ansi_stripped = strip_ansi_escapes::strip(data).unwrap();
-    std::str::from_utf8(&ansi_stripped).unwrap().to_string()
+    let ansi_stripped = strip_ansi_escapes::strip(data);
+    std::str::from_utf8(&ansi_stripped)
+        .expect("Failed to get string from stripped ansi")
+        .to_string()
 }
 
 pub fn process_str(data: &str, tlp: &str, report_type: &str) {
