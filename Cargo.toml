@@ -8,7 +8,7 @@ authors = ["James Hodgkinson <james@terminaloutcomes.com>"]
 
 [dependencies]
 anyhow = "1.0.75"
-clap = { version = "4.4.10", features = ["derive"] }
+clap = { version = "4.4.11", features = ["derive"] }
 ioc_extract = "0.4.3"
 lazy_static = "1.4.0"
 regex = "1.10.2"
