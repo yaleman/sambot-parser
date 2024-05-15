@@ -39,12 +39,16 @@ fn strip_to_string(data: &str) -> String {
         .to_string()
 }
 
+pub(crate) fn get_artifacts(data: &str) -> Result<Artifacts, anyhow::Error> {
+    Artifacts::from_str(&data).with_context(|| "Failed to find any artifacts")
+}
+
 pub fn process_str(data: &str, tlp: &str, report_type: &str) {
     // TODO: make this a test
     // echo -e "https://\033[31;1;4mgoogle.com Hello\033[0m https://example.com" | cargo run --
     let data = strip_to_string(data);
 
-    let result = match Artifacts::from_str(&data).with_context(|| "Failed to find any artifacts") {
+    let result = match get_artifacts(&data) {
         Ok(val) => val,
         Err(err) => {
             eprintln!("Error: {:?}", err);

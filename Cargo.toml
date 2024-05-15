@@ -1,15 +1,13 @@
 [package]
 name = "sambot-parser"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["James Hodgkinson <james@terminaloutcomes.com>"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 anyhow = "1.0.83"
 clap = { version = "4.5.4", features = ["derive"] }
-ioc_extract = "0.4.3"
+ioc_extract = { version = "0.4.3", git = "https://github.com/yaleman/ioc_extract-rs.git", branch = "master" }
 lazy_static = "1.4.0"
 regex = "1.10.4"
 serde = "1.0.201"

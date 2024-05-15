@@ -18,6 +18,19 @@ fn test_email() {
 }
 
 #[test]
+fn test_links() {
+    let test_text = "are closing soon:https://example.com/foobar ";
+    let expected = "https://example.com/foobar";
+
+    let artifacts = crate::get_artifacts(test_text).unwrap();
+    let urls = artifacts.urls.unwrap();
+
+    assert!(urls.len() == 1);
+
+    assert_eq!(urls.first().unwrap(), expected);
+}
+
+#[test]
 fn test_subject_regex() {
     use crate::REGEX_SUBJECT;
     for line in [
