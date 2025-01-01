@@ -796,8 +796,8 @@ dependencies = [
 
 [[package]]
 name = "ioc_extract"
-version = "0.4.3"
-source = "git+https://github.com/yaleman/ioc_extract-rs.git?branch=master#dcbfe860f0ba4aff1e9e31da9a940b162bb219a6"
+version = "0.4.4"
+source = "git+https://github.com/yaleman/ioc_extract-rs.git?branch=master#5b3a63305fc8eb24ac92f41a5141f3053f8fb8a8"
 dependencies = [
  "fancy-regex",
  "idna 0.2.3",
