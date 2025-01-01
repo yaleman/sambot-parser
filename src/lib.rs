@@ -40,7 +40,7 @@ fn strip_to_string(data: &str) -> String {
 }
 
 pub(crate) fn get_artifacts(data: &str) -> Result<Artifacts, anyhow::Error> {
-    Artifacts::from_str(&data).with_context(|| "Failed to find any artifacts")
+    Artifacts::from_str(data).with_context(|| "Failed to find any artifacts")
 }
 
 pub fn process_str(data: &str, tlp: &str, report_type: &str) {

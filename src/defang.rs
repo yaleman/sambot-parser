@@ -38,11 +38,11 @@ pub fn defang_url(input: &str) -> String {
 }
 
 pub fn defang_ipv4(input: &str) -> String {
-    return DOTS_REGEX.replace_all(input, "[.]").to_string();
+    DOTS_REGEX.replace_all(input, "[.]").to_string()
 }
 
 pub fn defang_ipv6(input: &str) -> String {
-    return COLONS_REGEX.replace_all(input, "[:]").to_string();
+    COLONS_REGEX.replace_all(input, "[:]").to_string()
 }
 
 pub fn defang_email(input: &str) -> String {
