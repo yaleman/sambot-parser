@@ -1,6 +1,7 @@
 use anyhow::Context;
 use clap::Parser;
-use lazy_static::lazy_static;
+
+use once_cell::sync::Lazy;
 use sambot_parser::process_str;
 use std::io::Read;
 use std::path::PathBuf;
@@ -21,11 +22,9 @@ struct Cli {
     filename: Option<PathBuf>,
 }
 
-lazy_static! {
-    static ref VALID_REPORT_TYPES: Vec<&'static str> =
-        vec!["phish", "malware", "bec/scam", "dump", "apt",];
-    static ref VALID_TLP: Vec<&'static str> = vec!["white", "green", "amber", "red",];
-}
+static VALID_REPORT_TYPES: Lazy<Vec<&'static str>> =
+    Lazy::new(|| vec!["phish", "malware", "bec/scam", "dump", "apt"]);
+static VALID_TLP: Lazy<Vec<&'static str>> = Lazy::new(|| vec!["white", "green", "amber", "red"]);
 
 fn main() {
     // take input from stdin
