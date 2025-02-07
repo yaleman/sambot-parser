@@ -810,11 +810,11 @@ dependencies = [
 [[package]]
 name = "ioc_extract"
 version = "0.4.4"
-source = "git+https://github.com/yaleman/ioc_extract-rs.git?branch=master#0cc6e88a2aa56141b4a68a273aded67e4dd96b4f"
+source = "git+https://github.com/yaleman/ioc_extract-rs.git?branch=master#98fbf6995a413d64d68f275527d3fbfe2389a29b"
 dependencies = [
  "fancy-regex",
  "idna 0.2.3",
- "lazy_static",
+ "once_cell",
  "serde",
  "tld_download",
 ]
@@ -846,12 +846,6 @@ dependencies = [
  "once_cell",
  "wasm-bindgen",
 ]
-
-[[package]]
-name = "lazy_static"
-version = "1.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
 
 [[package]]
 name = "libc"
