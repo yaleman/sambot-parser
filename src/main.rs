@@ -1,8 +1,7 @@
 use anyhow::Context;
 use clap::Parser;
 
-use once_cell::sync::Lazy;
-use sambot_parser::process_str;
+use sambot_parser::{process_str, VALID_REPORT_TYPES, VALID_TLP};
 use std::io::Read;
 use std::path::PathBuf;
 
@@ -21,10 +20,6 @@ struct Cli {
     #[clap(long = "file", short = 'f')]
     filename: Option<PathBuf>,
 }
-
-static VALID_REPORT_TYPES: Lazy<Vec<&'static str>> =
-    Lazy::new(|| vec!["phish", "malware", "bec/scam", "dump", "apt"]);
-static VALID_TLP: Lazy<Vec<&'static str>> = Lazy::new(|| vec!["white", "green", "amber", "red"]);
 
 fn main() {
     // take input from stdin
