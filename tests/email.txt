@@ -235,6 +235,8 @@ Content-Transfer-Encoding: 7bit
 
 <p style="text-align:center"><span style="font-size:22pt"><span style="font-family:Georgia"><span style="color:#000000"><strong>&lt;&lt;&lt;Registration is free&gt;&gt;&gt;</strong></span></span></span></p>
 
+<p>This is just to test looking for an IPv6 address 2001::1</p>
+
 <p>&nbsp;</p>
 
 <p style="text-align:center"><span style="font-size:10pt"><span style="font-family:Georgia"><span style="color:#111111"><span style="background-color:#ffffff">If you do not wish to receive further communications like this, please click here to </span></span></span></span><a href="https://clever-wisp-421290.netlify.app/" style="text-decoration:none"><span style="font-size:10pt"><span style="font-family:Georgia"><span style="color:#1155cc"><span style="background-color:#ffffff"><u>unsubscribe.</u></span></span></span></span></a><span style="font-size:10pt"><span style="font-family:Georgia"><span style="color:#111111"><span style="background-color:#ffffff">&nbsp;</span></span></span></span></p>

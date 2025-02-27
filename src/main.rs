@@ -2,7 +2,7 @@ use anyhow::Context;
 use clap::Parser;
 
 use sambot_parser::{process_str, VALID_REPORT_TYPES, VALID_TLP};
-use std::io::Read;
+use std::io::{stdin, IsTerminal, Read};
 use std::path::PathBuf;
 
 #[derive(Parser)]
@@ -60,8 +60,16 @@ fn main() {
             tmp
         }
         None => {
+            let mut stdin = stdin();
+
+            if stdin.is_terminal() {
+                eprintln!(
+                    "Reading from stdin, paste your text and press Ctrl-D and enter when done"
+                );
+            }
+            // eprintln!("Reading from stdin, paste your text and press Ctrl-D and enter when done");
             let mut tmp = String::new();
-            std::io::stdin()
+            stdin
                 .read_to_string(&mut tmp)
                 .with_context(|| "Failed to read from stdin")
                 .unwrap();
@@ -69,5 +77,7 @@ fn main() {
         }
     };
 
-    process_str(&data, &tlp, &report_type);
+    if let Ok(output) = process_str(&data, &tlp, &report_type) {
+        println!("{}", output);
+    };
 }

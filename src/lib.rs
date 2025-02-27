@@ -54,7 +54,7 @@ pub(crate) fn get_artifacts(data: &str) -> Result<Artifacts, anyhow::Error> {
     Artifacts::from_str(data).with_context(|| "Failed to find any artifacts")
 }
 
-pub fn process_str(data: &str, tlp: &str, report_type: &str) {
+pub fn process_str(data: &str, tlp: &str, report_type: &str) -> Result<String, String> {
     // TODO: make this a test
     // echo -e "https://\033[31;1;4mgoogle.com Hello\033[0m https://example.com" | cargo run --
     let data = strip_to_string(data);
@@ -63,29 +63,31 @@ pub fn process_str(data: &str, tlp: &str, report_type: &str) {
         Ok(val) => val,
         Err(err) => {
             eprintln!("Error: {:?}", err);
-            return;
+            return Err("Failed to get artifacts".to_string());
         }
     };
 
-    println!("tag: TLP:{}", tlp);
-    println!("type: {}", report_type);
+    let mut output = Vec::new();
+
+    output.push(format!("tag: TLP:{}", tlp));
+    output.push(format!("type: {}", report_type));
 
     if let Some(url_vec) = result.urls {
         url_vec
             .into_iter()
-            .for_each(|url| println!("url: {}", defang(&url)));
+            .for_each(|url| output.push(format!("url: {}", defang(&url))));
     }
     if let Some(domain_vec) = result.domains {
         domain_vec
             .into_iter()
-            .for_each(|domain| println!("domain: {}", defang(&domain)));
+            .for_each(|domain| output.push(format!("domain: {}", defang(&domain))));
     }
 
     // from: or source-email: or email-source
     if let Some(email_vec) = result.emails {
         email_vec
             .into_iter()
-            .for_each(|email| println!("from: {}", defang(&email)));
+            .for_each(|email| output.push(format!("from: {}", defang(&email))));
     }
 
     // ip-dst:
@@ -93,35 +95,37 @@ pub fn process_str(data: &str, tlp: &str, report_type: &str) {
     if let Some(ip_address_vec) = result.ip_address {
         ip_address_vec
             .into_iter()
-            .for_each(|ip_address| println!("ip-dst: {}", defang(&ip_address)));
+            .for_each(|ip_address| output.push(format!("ip-dst: {}", defang(&ip_address))));
     }
 
     // use REGEX_IPV6 to match IP Addresses
     REGEX_IPV6.captures_iter(&data).for_each(|x| {
-        println!("ip-dst: {}", defang(&x[1]));
+        output.push(format!("ip-dst: {}", defang(&x[1])));
     });
 
     if let Some(crypto_vec) = result.crypto {
         crypto_vec
             .into_iter()
-            .for_each(|crypto| println!("crypto: {}", defang(&crypto)));
+            .for_each(|crypto| output.push(format!("crypto: {}", defang(&crypto))));
     }
     REGEX_SUBJECT.captures_iter(&data).for_each(|x| {
-        println!("subject: {}", defang(&x[0]));
+        output.push(format!("subject: {}", defang(&x[0])));
     });
 
     let md5s: Vec<String> = find_hash!(REGEX_MD5, &data);
     let sha256s: Vec<String> = find_hash!(REGEX_SHA256, &data);
     let sha512s: Vec<String> = find_hash!(REGEX_SHA512, &data);
 
-    md5s.into_iter().for_each(|md5| println!("md5: {}", md5));
+    md5s.into_iter()
+        .for_each(|md5| output.push(format!("md5: {}", md5)));
     sha256s
         .into_iter()
-        .for_each(|sha256| println!("sha256: {}", sha256));
+        .for_each(|sha256| output.push(format!("sha256: {}", sha256)));
     sha512s
         .into_iter()
-        .for_each(|sha512| println!("sha512: {}", sha512));
+        .for_each(|sha512| output.push(format!("sha512: {}", sha512)));
 
-    println!("-------------------------");
-    println!("{}", data);
+    output.push("-------------------------".to_string());
+    output.push(data);
+    Ok(output.join("\n"))
 }

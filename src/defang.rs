@@ -12,9 +12,8 @@ static AT_REGEX: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"@").expect("Failed to compile regex!"));
 static HTTP_REGEX: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"(?i)http").expect("Failed to compile regex!"));
-#[allow(dead_code)]
-static SLASHES_REGEX: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r"://").expect("Failed to compile regex!"));
+// static SLASHES_REGEX: LazyLock<Regex> =
+//     LazyLock::new(|| Regex::new(r"://").expect("Failed to compile regex!"));
 
 static EMAIL_REGEX: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"(?i)([A-Za-z0-9!#$%&'*+/=?^_{|.}~-]+@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)").expect("Failed to compile regex!")
@@ -65,4 +64,39 @@ pub fn defang_email(input: &str) -> String {
     result = AT_REGEX.replace_all(&result, "[@]").to_string();
 
     result
+}
+
+#[test]
+fn test_ipv6_regex() {
+    assert!(IPV6_REGEX.is_match("2001:0db8:85a3:0000:0000:8a2e:0370:7334"));
+    assert!(IPV6_REGEX.is_match("2001:db8:85a3:0:0:8a2e:370:7334"));
+    assert!(IPV6_REGEX.is_match("2001:db8:85a3::8a2e:370:7334"));
+    assert!(IPV6_REGEX.is_match("2001:db8:85a3:0:0:8a2e:370:7334"));
+    assert!(IPV6_REGEX.is_match("2001:db8:85a3::8a2e:370:7334"));
+    assert!(IPV6_REGEX.is_match("2001:db8::1"));
+    assert!(IPV6_REGEX.is_match("2001:db8::"));
+    assert!(IPV6_REGEX.is_match("2001::1%asdf"));
+    assert!(IPV6_REGEX.is_match("2001::1<asdf"));
+    assert!(IPV6_REGEX.is_match("::1"));
+    assert!(IPV6_REGEX.is_match("::"));
+    assert!(IPV6_REGEX.is_match("2001:0db8:85a3:0000:0000:8a2e:0370:7334%eth0"));
+    assert!(IPV6_REGEX.is_match("2001:db8:85a3:0:0:8a2e:370:7334%eth0"));
+    assert!(IPV6_REGEX.is_match("2001:db8:85a3::8a2e:370:7334%eth0"));
+    assert!(IPV6_REGEX.is_match("2001:db8:85a3:0:0:8a2e:370:7334%eth0"));
+    assert!(IPV6_REGEX.is_match("2001:db8:85a3::8a2e:370:7334%eth0"));
+    assert!(IPV6_REGEX.is_match("2001:db8::1%eth0"));
+    assert!(IPV6_REGEX.is_match("2001:db8::%eth0"));
+    assert!(IPV6_REGEX.is_match("::1%eth0"));
+    assert!(IPV6_REGEX.is_match("::%eth0"));
+}
+
+#[test]
+fn test_defang_ips() {
+    assert_eq!(defang("1.2.3.4"), "1[.]2[.]3[.]4");
+    assert_eq!(defang_ipv4("1.2.3.4"), "1[.]2[.]3[.]4");
+
+    assert_eq!(defang("2001::1"), "2001[:][:]1");
+    assert_eq!(defang_ipv6("2001::1"), "2001[:][:]1");
+    assert_eq!(defang("foo@example.com"), "foo[@]example[.]com");
+    assert_eq!(defang_email("foo@example.com"), "foo[@]example[.]com");
 }
