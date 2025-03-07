@@ -11,5 +11,5 @@ ioc_extract = { version = "0.4.5", git = "https://github.com/yaleman/ioc_extract
 # ioc_extract = { version = "0.4.5", path = "../ioc_extract-rs" }
 regex = "1.11.1"
 serde = "1.0.218"
-serde_json = "1.0.139"
+serde_json = "1.0.140"
 strip-ansi-escapes = "0.2.1"
