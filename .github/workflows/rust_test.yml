@@ -16,9 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.7
-        with:
-          version: "v0.4.2"
+        uses: mozilla-actions/sccache-action@v0.0.8
       - name: cargo test
         run: cargo test --verbose
   cargo_build:
@@ -26,8 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.7
-        with:
-          version: "v0.4.2"
+        uses: mozilla-actions/sccache-action@v0.0.8
       - name: cargo build
         run: cargo build --verbose
