@@ -6,7 +6,7 @@ authors = ["James Hodgkinson <james@terminaloutcomes.com>"]
 
 [dependencies]
 anyhow = "1.0.98"
-clap = { version = "4.5.36", features = ["derive"] }
+clap = { version = "4.5.37", features = ["derive"] }
 ioc_extract = { version = "0.4.5", git = "https://github.com/yaleman/ioc_extract-rs.git", branch = "master" }
 # ioc_extract = { version = "0.4.5", path = "../ioc_extract-rs" }
 regex = "1.11.1"
