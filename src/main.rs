@@ -78,6 +78,6 @@ fn main() {
     };
 
     if let Ok(output) = process_str(&data, &tlp, &report_type) {
-        println!("{}", output);
+        println!("{output}");
     };
 }

@@ -5,17 +5,17 @@ const EXAMPLE_EMAIL: &str = include_str!("../tests/email.txt");
 
 #[test]
 fn test_sms() {
-    println!("input: {}", EXAMPLE_SMS);
+    println!("input: {EXAMPLE_SMS}");
     println!("output:");
     assert!(process_str(EXAMPLE_SMS, "green", "phish").is_ok());
 }
 
 #[test]
 fn test_email() {
-    eprintln!("input: {}", EXAMPLE_EMAIL);
+    eprintln!("input: {EXAMPLE_EMAIL}");
     let res = process_str(EXAMPLE_EMAIL, "green", "phish").expect("failed to get result");
     println!("output:");
-    println!("{}", res);
+    println!("{res}");
     assert!(res.contains("ip-dst: 2001[:][:]1"));
     assert!(res.contains("domain: mx1[.]messagingengine[.]com"));
 }
@@ -40,7 +40,7 @@ fn test_subject_regex() {
         "subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;",
         "Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck",
     ] {
-        println!("Testing negative '{}'", line);
+        println!("Testing negative '{line}'");
         assert!(REGEX_SUBJECT.find(line).is_none())
     }
 
@@ -48,7 +48,7 @@ fn test_subject_regex() {
         "Subject: Find Your Perfect Match in Ukraine: Start Dating Today!",
         "subject: Find Your Perfect Match in Ukraine: Start Dating Today!",
     ] {
-        println!("Testing positive '{}'", line);
+        println!("Testing positive '{line}'");
         assert!(REGEX_SUBJECT.find(line).is_some());
     }
 }

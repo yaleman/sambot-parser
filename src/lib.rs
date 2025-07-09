@@ -62,15 +62,15 @@ pub fn process_str(data: &str, tlp: &str, report_type: &str) -> Result<String, S
     let result = match get_artifacts(&data) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("Error: {:?}", err);
+            eprintln!("Error: {err:?}");
             return Err("Failed to get artifacts".to_string());
         }
     };
 
     let mut output = Vec::new();
 
-    output.push(format!("tag: TLP:{}", tlp));
-    output.push(format!("type: {}", report_type));
+    output.push(format!("tag: TLP:{tlp}"));
+    output.push(format!("type: {report_type}"));
 
     if let Some(url_vec) = result.urls {
         url_vec
@@ -117,13 +117,13 @@ pub fn process_str(data: &str, tlp: &str, report_type: &str) -> Result<String, S
     let sha512s: Vec<String> = find_hash!(REGEX_SHA512, &data);
 
     md5s.into_iter()
-        .for_each(|md5| output.push(format!("md5: {}", md5)));
+        .for_each(|md5| output.push(format!("md5: {md5}")));
     sha256s
         .into_iter()
-        .for_each(|sha256| output.push(format!("sha256: {}", sha256)));
+        .for_each(|sha256| output.push(format!("sha256: {sha256}")));
     sha512s
         .into_iter()
-        .for_each(|sha512| output.push(format!("sha512: {}", sha512)));
+        .for_each(|sha512| output.push(format!("sha512: {sha512}")));
 
     output.push("-------------------------".to_string());
     output.push(data);
